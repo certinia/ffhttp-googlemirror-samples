@@ -1,0 +1,61 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Package xmlns="http://soap.sforce.com/2006/04/metadata">
+    <types>
+        <members>GoogleMirrorApprovalProcess</members>
+        <members>GoogleMirrorAuthenticatedCallback</members>
+        <members>GoogleMirrorCallback</members>
+        <members>GoogleMirrorConfigure</members>
+        <members>GoogleMirrorSalesforceService</members>
+        <members>GoogleMirrorService</members>
+        <members>GoogleMirrorSubscribeController</members>
+        <members>GoogleMirrorTestHarnessController</members>
+        <name>ApexClass</name>
+    </types>
+    <types>
+        <members>GoogleMirrorSubscribe</members>
+        <members>GoogleMirrorTestHarness</members>
+        <name>ApexPage</name>
+    </types>
+    <types>
+        <members>Requisitions</members>
+        <name>ApexTrigger</name>
+    </types>
+    <types>
+        <members>Requisition__c.RequisitionApproval</members>
+        <name>ApprovalProcess</name>
+    </types>
+    <types>
+        <members>Google_Mirror_Sample_Apps</members>
+        <name>CustomApplication</name>
+    </types>
+    <types>
+    	<members>Connector__c</members>
+        <members>GoogleMirrorItem__c</members>
+        <members>Requisition__c</members>
+        <name>CustomObject</name>
+    </types>
+    <types>
+        <members>Requisition__c</members>
+        <members>Google_Mirror_Test_Harness</members>
+        <name>CustomTab</name>
+    </types>
+    <types>
+        <members>Connector__c-Connector Google Mirror Layout</members>
+        <members>GoogleMirrorItem__c-Google Mirror Item Layout</members>
+        <members>Requisition__c-Requisition Layout</members>
+        <name>Layout</name>
+    </types>
+    <types>
+        <members>Google_Mirror_Sample_App_Permissions</members>
+        <name>PermissionSet</name>
+    </types>
+    <types>
+        <members>SalesforceLogin</members>
+        <name>RemoteSiteSetting</name>
+    </types>
+    <types>
+        <members>Requisition__c</members>
+        <name>Workflow</name>
+    </types>
+    <version>32.0</version>
+</Package>

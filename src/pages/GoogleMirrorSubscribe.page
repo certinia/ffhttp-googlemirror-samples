@@ -1,0 +1,18 @@
+<apex:page standardController="Connector__c" extensions="GoogleMirrorSubscribeController" >
+    <apex:sectionHeader title="{!$ObjectType.Connector__c.Label}" subtitle="{!Connector__c.Name} - Subscriptions"/>
+	<apex:pageMessages />
+	<apex:form >
+	<apex:pageBlock title="Subscriptions">
+		<apex:pageBlockButtons >
+			<apex:commandbutton action="{!subscribe}" value="Subscribe" rendered="{!canSubscribe}"/>
+			<apex:commandbutton action="{!unsubscribe}" value="Unsubscribe" rendered="{!canSubscribe}"/>
+			<apex:commandbutton action="{!cancel}" value="Cancel"/>
+		</apex:pageBlockButtons>
+		<apex:pageBlockTable value="{!Subscriptions}" var="item">
+			<apex:column value="{!item.Collection}"><apex:facet name="header">Collection</apex:facet></apex:column>
+			<apex:column value="{!item.Kind}"><apex:facet name="header">Kind</apex:facet></apex:column>
+			<apex:column value="{!item.CallbackUrl}"><apex:facet name="header">Callback URL</apex:facet></apex:column>
+		</apex:pageBlockTable>
+	</apex:pageBlock>
+	</apex:form>
+</apex:page>

@@ -1,0 +1,862 @@
+<apex:page controller="GoogleMirrorTestHarnessController"
+	id="page" docType="html-5.0" tabStyle="Google_Mirror_Test_Harness__tab">
+
+	<script language="javascript">
+	    <!-- Collapse PageBlockSection on Page Load-->
+	    
+	    function addLoadEvent(func) 
+	    {
+	    	var oldonload = window.onload;
+	      	if (typeof window.onload != 'function') 
+	      	{
+	        	window.onload = func;
+	      	} 
+	      	else 
+	      	{
+	        	window.onload = function() 
+	        	{
+	          		if (oldonload) 
+	          		{
+	            		oldonload();
+	          		}
+	          	
+	          		func();
+	        	}
+	      	}
+	    }
+	 
+	    function minimiseAll() 
+	    {
+	    	minimise(document.getElementById('page:mainForm:mainBlock:gmirroraccounts'));
+	    	minimise(document.getElementById('page:mainForm:mainBlock:gmirrorcontacts'));
+	    	minimise(document.getElementById('page:mainForm:mainBlock:gmirrorcontacts:gmirrorcontactscallouts:gmirrorcontactsinsert'));
+	    	minimise(document.getElementById('page:mainForm:mainBlock:gmirrorcontacts:gmirrorcontactscallouts:gmirrorcontactsupdate'));
+	    	minimise(document.getElementById('page:mainForm:mainBlock:gmirrorlocations'));
+	    	minimise(document.getElementById('page:mainForm:mainBlock:gmirrorsettings'));
+	    	minimise(document.getElementById('page:mainForm:mainBlock:gmirrorsubscriptions'));
+	    	minimise(document.getElementById('page:mainForm:mainBlock:gmirrortimeline'));
+	    	minimise(document.getElementById('page:mainForm:mainBlock:gmirrortimeline:gmirrortimelinecallouts:gmirrortimelinedelete'));
+	    	minimise(document.getElementById('page:mainForm:mainBlock:gmirrortimeline:gmirrortimelinecallouts:gmirrortimelineget'));
+	    	minimise(document.getElementById('page:mainForm:mainBlock:gmirrortimeline:gmirrortimelinecallouts:gmirrortimelineinsert'));
+	    	minimise(document.getElementById('page:mainForm:mainBlock:gmirrortimeline:gmirrortimelinecallouts:gmirrortimelinelist'));
+	    	minimise(document.getElementById('page:mainForm:mainBlock:gmirrortimeline:gmirrortimelinecallouts:gmirrortimelineupdate'));
+	    	minimise(document.getElementById('page:mainForm:mainBlock:gmirrortimelineattachments'));
+	    }
+	    
+	    function minimise(element)
+	    {
+	    	if (element != null)
+	    	{
+	    		twistSection(element.childNodes[0].childNodes[0]);
+	    	}
+	    }
+	 
+	    addLoadEvent(minimiseAll);
+	</script>
+
+	<apex:form id="mainForm">
+		<apex:pageblock id="mainBlock" title="Google Mirror API Test Harness">
+			<apex:pageBlockSection title="Callout Details" id="messages"
+				columns="1" collapsible="true">
+				<apex:pagemessages />
+			</apex:pageBlockSection>
+
+			<!-- Accounts API Calls -->
+			<apex:actionRegion id="gmirroraccountsactionregion">
+				<apex:pageBlockSection id="gmirroraccounts" title="Accounts"
+					columns="1" collapsible="true">
+					<apex:outputLink
+						value="https://developers.google.com/glass/v1/reference/accounts">
+	                     https://developers.google.com/glass/v1/reference/accounts
+	                </apex:outputLink>
+
+					<!-- Accounts Insert Call -->
+					<apex:pageBlockSection id="gmirroraccountsinsert" title="INSERT"
+						collapsible="false">
+						<apex:outputLink
+							value="https://developers.google.com/glass/v1/reference/accounts/insert">
+		                     https://developers.google.com/glass/v1/reference/accounts/insert
+		                </apex:outputLink>
+
+						<apex:pageBlockSectionItem />
+
+						<apex:inputText label="Account Name"
+							value="{!accountInsertRequestAccountName}" />
+						<apex:inputText label="Account Type"
+							value="{!accountInsertRequestAccountType}" />
+						<apex:inputText label="User Token"
+							value="{!accountInsertRequestUserToken}" />
+						<apex:inputText label="Password"
+							value="{!accountInsertRequestPassword}" />
+
+						<apex:actionRegion>
+							<apex:pageBlockSection id="gmirroraccountsinsertauthtoken"
+								title="Auth Tokens" collapsible="false">
+								<apex:inputText label="Auth Token"
+									value="{!accountInsertRequestAuthToken}" />
+								<apex:inputText label="Auth Token Type"
+									value="{!accountInsertRequestAuthTokenType}" />
+								<apex:commandButton value="Add Auth Token"
+									action="{!accountInsertRequestAddAuthToken}"
+									rerender="gmirroraccountsinsertauthtoken,messages" />
+								<apex:pageBlockSectionItem />
+								<apex:outputText label="Auth Tokens"
+									value="{!accountInsertRequestAuthTokens}" />
+							</apex:pageBlockSection>
+						</apex:actionRegion>
+
+						<apex:actionRegion>
+							<apex:pageBlockSection id="gmirroraccountsinsertuserdata"
+								title="User Data" collapsible="false">
+								<apex:inputText label="User Data Key"
+									value="{!accountInsertRequestUserDataKey}" />
+								<apex:inputText label="User Data Value"
+									value="{!accountInsertRequestUserDataValue}" />
+								<apex:commandButton value="Add User Data"
+									action="{!accountInsertRequestAddUserData}"
+									rerender="gmirroraccountsinsertuserdata,messages" />
+								<apex:pageBlockSectionItem />
+								<apex:outputText label="User Data"
+									value="{!accountInsertRequestUserData}" />
+							</apex:pageBlockSection>
+						</apex:actionRegion>
+
+						<apex:actionRegion>
+							<apex:pageBlockSection id="gmirroraccountsinsertfeatures"
+								title="Features" collapsible="false">
+								<apex:inputText label="Feature"
+									value="{!accountInsertRequestFeature}" />
+								<apex:commandButton value="Add Feature"
+									action="{!accountInsertRequestAddFeature}"
+									rerender="gmirroraccountsinsertfeatures,messages" />
+								<apex:outputText label="Features"
+									value="{!accountInsertRequestFeatures}" />
+							</apex:pageBlockSection>
+						</apex:actionRegion>
+
+						<apex:pageBlockSectionItem />
+
+						<apex:commandButton value="Submit"
+							action="{!accountInsertRequest}"
+							reRender="gmirroraccounts,messages" />
+					</apex:pageBlockSection>
+
+				</apex:pageBlockSection>
+			</apex:actionRegion>
+
+			<!-- Contacts API Calls -->
+			<apex:actionRegion id="gmirrorcontactsactionregion">
+				<apex:pageBlockSection id="gmirrorcontacts" title="Contacts"
+					columns="1" collapsible="true">
+					<apex:outputLink
+						value="https://developers.google.com/glass/v1/reference/contacts">
+	                     https://developers.google.com/glass/v1/reference/contacts
+	                 </apex:outputLink>
+
+					<apex:pageBlockSection id="gmirrorcontactscallouts" columns="1">
+						<apex:pageBlockSection id="gmirrorcontactssimplecallouts"
+							columns="2">
+
+							<!-- Contacts Delete Call -->
+							<apex:pageBlockSection id="gmirrorcontactsdelete" title="DELETE"
+								columns="1" collapsible="false">
+								<apex:outputLink
+									value="https://developers.google.com/glass/v1/reference/contacts/delete">
+		                             https://developers.google.com/glass/v1/reference/contacts/delete
+		                         </apex:outputLink>
+								<apex:inputText label="Id"
+									value="{!contactDeleteRequestContactId}" />
+								<apex:commandButton value="Submit"
+									action="{!contactsDeleteRequest}" rerender="messages" />
+							</apex:pageBlockSection>
+
+							<!-- Contacts Get Call -->
+							<apex:pageBlockSection id="gmirrorcontactsget" title="GET"
+								columns="1" collapsible="false">
+								<apex:outputLink
+									value="https://developers.google.com/glass/v1/reference/contacts/get">
+		                             https://developers.google.com/glass/v1/reference/contacts/get
+		                         </apex:outputLink>
+								<apex:inputText label="Id" value="{!contactGetRequestContactId}" />
+								<apex:commandButton value="Submit"
+									action="{!contactsGetRequest}" rerender="messages" />
+							</apex:pageBlockSection>
+
+							<!-- Contacts List Call -->
+							<apex:pageBlockSection id="gmirrorcontactslist" title="LIST"
+								columns="1" collapsible="false">
+								<apex:outputLink
+									value="https://developers.google.com/glass/v1/reference/contacts/list">
+		                             https://developers.google.com/glass/v1/reference/contacts/list
+		                         </apex:outputLink>
+								<apex:commandButton value="Submit"
+									action="{!contactsListRequest}" rerender="messages" />
+							</apex:pageBlockSection>
+						</apex:pageBlockSection>
+
+						<!-- Contacts Insert Call -->
+						<apex:pageBlockSection id="gmirrorcontactsinsert" title="INSERT"
+							collapsible="true">
+							<apex:outputLink
+								value="https://developers.google.com/glass/v1/reference/contacts/insert">
+	                             https://developers.google.com/glass/v1/reference/contacts/insert
+	                         </apex:outputLink>
+							<apex:pageBlockSectionItem />
+							<apex:inputText label="Id" value="{!contactInsertRequestId}" />
+							<apex:inputText label="Display Name"
+								value="{!contactInsertRequestDisplayName}" />
+							<apex:inputText label="Phone Number"
+								value="{!contactInsertRequestPhoneNumber}" />
+							<apex:inputText label="Speakable Name"
+								value="{!contactInsertRequestSpeakableName}" />
+							<apex:input type="number" label="Priority"
+								value="{!contactInsertRequestPriority}" />
+							<apex:pageBlockSectionItem />
+							<apex:selectCheckboxes label="Accept Command Types"
+								value="{!contactInsertRequestAcceptCommands}">
+								<apex:selectOptions value="{!contactAcceptCommandTypes}" />
+							</apex:selectCheckboxes>
+							<apex:selectRadio label="Type"
+								value="{!contactInsertRequestType}">
+								<apex:selectOptions value="{!contactTypes}" />
+							</apex:selectRadio>
+							<apex:actionRegion id="gmirrorcontactsinsertimageurlactionregion">
+								<apex:pageBlockSection id="gmirrorcontactsinsertimageurl"
+									title="Image URLs" columns="2" collapsible="false">
+									<apex:inputText label="Image Url"
+										value="{!contactInsertRequestDummyImageUrl}" />
+									<apex:commandButton value="Add Image Url"
+										action="{!contactInsertRequestAddImageUrl}"
+										rerender="gmirrorcontactsinsertimageurl,messages" />
+									<apex:outputText label="Image Urls"
+										value="{!contactInsertRequestImageUrls}" />
+								</apex:pageBlockSection>
+							</apex:actionRegion>
+							<apex:actionRegion
+								id="gmirrorcontactsinsertaccepttypesactionregion">
+								<apex:pageBlockSection id="gmirrorcontactsinsertaccepttypes"
+									title="Accept Types" columns="2" collapsible="false">
+									<apex:inputText label="Accept Type"
+										value="{!contactInsertRequestDummyAcceptType}" />
+									<apex:commandButton value="Add Accept Type"
+										action="{!contactInsertRequestAddAcceptType}"
+										rerender="gmirrorcontactsinsertaccepttypes,messages" />
+									<apex:outputText label="Accept Types"
+										value="{!contactInsertRequestAcceptTypes}" />
+								</apex:pageBlockSection>
+							</apex:actionRegion>
+							<apex:commandButton value="Submit"
+								action="{!contactsInsertRequest}" rerender="messages" />
+						</apex:pageBlockSection>
+
+						<!-- Contacts Update Call -->
+						<apex:pageBlockSection id="gmirrorcontactsupdate" title="UPDATE"
+							collapsible="true">
+							<apex:outputLink
+								value="https://developers.google.com/glass/v1/reference/contacts/update">
+	                             https://developers.google.com/glass/v1/reference/contacts/update
+	                         </apex:outputLink>
+							<apex:pageBlockSectionItem />
+							<apex:inputText label="Id" value="{!contactUpdateRequestId}" />
+							<apex:inputText label="Display Name"
+								value="{!contactUpdateRequestDisplayName}" />
+							<apex:inputText label="Phone Number"
+								value="{!contactUpdateRequestPhoneNumber}" />
+							<apex:inputText label="Speakable Name"
+								value="{!contactUpdateRequestSpeakableName}" />
+							<apex:input type="number" label="Priority"
+								value="{!contactUpdateRequestPriority}" />
+							<apex:pageBlockSectionItem />
+							<apex:selectCheckboxes label="Accept Command Types"
+								value="{!contactUpdateRequestAcceptCommands}">
+								<apex:selectOptions value="{!contactAcceptCommandTypes}" />
+							</apex:selectCheckboxes>
+							<apex:selectRadio label="Type"
+								value="{!contactUpdateRequestType}">
+								<apex:selectOptions value="{!contactTypes}" />
+							</apex:selectRadio>
+							<apex:actionRegion id="gmirrorcontactsupdateimageurlactionregion">
+								<apex:pageBlockSection id="gmirrorcontactsupdateimageurl"
+									title="Image URLs" columns="2" collapsible="false">
+									<apex:inputText label="Image Url"
+										value="{!contactUpdateRequestDummyImageUrl}" />
+									<apex:commandButton value="Add Image Url"
+										action="{!contactUpdateRequestAddImageUrl}"
+										rerender="gmirrorcontactsupdateimageurl,messages" />
+									<apex:outputText label="Image Urls"
+										value="{!contactUpdateRequestImageUrls}" />
+								</apex:pageBlockSection>
+							</apex:actionRegion>
+							<apex:actionRegion
+								id="gmirrorcontactsupdateaccepttypesactionregion">
+								<apex:pageBlockSection id="gmirrorcontactsupdateaccepttypes"
+									title="Accept Types" columns="2" collapsible="false">
+									<apex:inputText label="Accept Type"
+										value="{!contactUpdateRequestDummyAcceptType}" />
+									<apex:commandButton value="Add Accept Type"
+										action="{!contactUpdateRequestAddAcceptType}"
+										rerender="gmirrorcontactsupdateaccepttypes,messages" />
+									<apex:outputText label="Accept Types"
+										value="{!contactUpdateRequestAcceptTypes}" />
+								</apex:pageBlockSection>
+							</apex:actionRegion>
+							<apex:commandButton value="Submit"
+								action="{!contactsUpdateRequest}" rerender="messages" />
+						</apex:pageBlockSection>
+					</apex:pageBlockSection>
+				</apex:pageBlockSection>
+			</apex:actionRegion>
+
+			<!-- Locations API Calls -->
+			<apex:actionRegion id="gmirrorlocationsactionregion">
+				<apex:pageBlockSection id="gmirrorlocations" title="Locations"
+					columns="1" collapsible="true">
+					<apex:outputLink
+						value="https://developers.google.com/glass/v1/reference/locations">
+	                     https://developers.google.com/glass/v1/reference/locations
+	                 </apex:outputLink>
+
+					<apex:pageBlockSection id="gmirrorlocationscallouts" columns="2">
+
+						<!-- Locations Get Call -->
+						<apex:pageBlockSection title="GET" columns="1" collapsible="false">
+							<apex:outputLink
+								value="https://developers.google.com/glass/v1/reference/locations/get">
+	                             https://developers.google.com/glass/v1/reference/locations/get
+	                         </apex:outputLink>
+							<apex:inputText label="Id"
+								value="{!locationsGetRequestLocationId}" />
+							<apex:commandButton value="Submit"
+								action="{!locationsGetRequest}" rerender="messages" />
+						</apex:pageBlockSection>
+
+						<!-- Locations List Call -->
+						<apex:pageBlockSection title="LIST" columns="1"
+							collapsible="false">
+							<apex:outputLink
+								value="https://developers.google.com/glass/v1/reference/locations/list">
+	                             https://developers.google.com/glass/v1/reference/locations/list
+	                         </apex:outputLink>
+							<apex:commandButton value="Submit"
+								action="{!locationsListRequest}" rerender="messages" />
+						</apex:pageBlockSection>
+					</apex:pageBlockSection>
+				</apex:pageBlockSection>
+			</apex:actionRegion>
+
+			<!-- Settings API Calls -->
+			<apex:actionRegion id="gmirrorsettingsactionregion">
+				<apex:pageBlockSection id="gmirrorsettings" title="Settings"
+					columns="1" collapsible="true">
+					<apex:outputLink
+						value="https://developers.google.com/glass/v1/reference/settings">
+	                     https://developers.google.com/glass/v1/reference/settings
+	                </apex:outputLink>
+
+					<!-- Settings Get Call -->
+					<apex:pageBlockSection title="GET" columns="1" collapsible="false">
+						<apex:outputLink
+							value="https://developers.google.com/glass/v1/reference/settings/get">
+	                    	https://developers.google.com/glass/v1/reference/settings/get
+	                    </apex:outputLink>
+						<apex:inputText label="Id" value="{!settingsGetRequestSettingId}" />
+						<apex:commandButton value="Submit" action="{!settingsGetRequest}"
+							rerender="messages" />
+					</apex:pageBlockSection>
+				</apex:pageBlockSection>
+			</apex:actionRegion>
+
+			<!-- Subscriptions API Calls -->
+			<apex:actionRegion id="gmirrorsubscriptionsactionregion">
+				<apex:pageBlockSection id="gmirrorsubscriptions"
+					title="Subscriptions" columns="1" collapsible="true">
+
+					<apex:outputLink
+						value="https://developers.google.com/glass/v1/reference/subscriptions">
+	                     https://developers.google.com/glass/v1/reference/subscriptions
+	                </apex:outputLink>
+
+					<apex:pageBlockSection id="gmirrorsubscriptionscallouts"
+						columns="2">
+
+						<!-- Subscriptions Delete Call -->
+						<apex:pageBlockSection title="DELETE" columns="1"
+							collapsible="false">
+							<apex:outputLink
+								value="https://developers.google.com/glass/v1/reference/subscriptions/delete">
+	                             https://developers.google.com/glass/v1/reference/subscriptions/delete
+	                         </apex:outputLink>
+							<apex:inputText label="Id"
+								value="{!subscriptionsDeleteRequestSubscriptionId}" />
+							<apex:commandButton value="Submit"
+								action="{!subscriptionsDeleteRequest}" rerender="messages" />
+						</apex:pageBlockSection>
+
+						<!-- Subscriptions List Call -->
+						<apex:pageBlockSection title="LIST" columns="1"
+							collapsible="false">
+							<apex:outputLink
+								value="https://developers.google.com/glass/v1/reference/subscriptions/list">
+	                             https://developers.google.com/glass/v1/reference/subscriptions/list
+	                          </apex:outputLink>
+							<apex:commandButton value="Submit"
+								action="{!subscriptionsListRequest}" rerender="messages" />
+						</apex:pageBlockSection>
+
+						<!-- Subscriptions Insert Call -->
+						<apex:pageBlockSection title="INSERT" columns="1"
+							collapsible="false">
+							<apex:outputLink
+								value="https://developers.google.com/glass/v1/reference/subscriptions/insert">
+	                             https://developers.google.com/glass/v1/reference/subscriptions/insert
+	                         </apex:outputLink>
+							<apex:inputText label="Callback URL"
+								value="{!subscriptionsInsertRequestCallbackUrl}" />
+							<apex:selectRadio label="Collection"
+								value="{!subscriptionsInsertRequestCollection}">
+								<apex:selectOptions value="{!subscriptionCollections}" />
+							</apex:selectRadio>
+							<apex:selectCheckboxes label="Operations"
+								value="{!subscriptionsInsertRequestOperations}">
+								<apex:selectOptions value="{!subscriptionOperations}" />
+							</apex:selectCheckboxes>
+							<apex:inputText label="User Token"
+								value="{!subscriptionsInsertRequestUserToken}" />
+							<apex:inputText label="Verify Token"
+								value="{!subscriptionsInsertRequestVerifyToken}" />
+							<apex:commandButton value="Submit"
+								action="{!subscriptionsInsertRequest}" rerender="messages" />
+						</apex:pageBlockSection>
+
+						<!-- Subscriptions Update Call -->
+						<apex:pageBlockSection title="UPDATE" columns="1"
+							collapsible="false">
+							<apex:outputLink
+								value="https://developers.google.com/glass/v1/reference/subscriptions/update">
+	                             https://developers.google.com/glass/v1/reference/subscriptions/update
+	                         </apex:outputLink>
+							<apex:inputText label="Id"
+								value="{!subscriptionsUpdateRequestId}" />
+							<apex:inputText label="Callback URL"
+								value="{!subscriptionsUpdateRequestCallbackUrl}" />
+							<apex:selectRadio label="Collection"
+								value="{!subscriptionsUpdateRequestCollection}">
+								<apex:selectOptions value="{!subscriptionCollections}" />
+							</apex:selectRadio>
+							<apex:selectCheckboxes label="Operations"
+								value="{!subscriptionsUpdateRequestOperations}">
+								<apex:selectOptions value="{!subscriptionOperations}" />
+							</apex:selectCheckboxes>
+							<apex:inputText label="User Token"
+								value="{!subscriptionsUpdateRequestUserToken}" />
+							<apex:inputText label="Verify Token"
+								value="{!subscriptionsUpdateRequestVerifyToken}" />
+							<apex:commandButton value="Submit"
+								action="{!subscriptionsUpdateRequest}" rerender="messages" />
+						</apex:pageBlockSection>
+					</apex:pageBlockSection>
+				</apex:pageBlockSection>
+			</apex:actionRegion>
+
+			<!-- Timeline API Calls -->
+			<apex:actionRegion id="gmirrortimelineactionregion">
+				<apex:pageBlockSection id="gmirrortimeline" title="Timeline"
+					columns="1" collapsible="true">
+					<apex:outputLink
+						value="https://developers.google.com/glass/v1/reference/timeline">
+	                     https://developers.google.com/glass/v1/reference/timeline
+	                 </apex:outputLink>
+
+					<apex:pageBlockSection id="gmirrortimelinecallouts" columns="1">
+
+						<!-- Timeline Delete Call -->
+						<apex:actionRegion id="gmirrortimelinedeleteactionregion">
+							<apex:pageBlockSection id="gmirrortimelinedelete" title="DELETE"
+								columns="1" collapsible="true">
+								<apex:outputLink
+									value="https://developers.google.com/glass/v1/reference/timeline/delete">
+		                             https://developers.google.com/glass/v1/reference/timeline/delete
+		                        </apex:outputLink>
+								<apex:inputText label="Id"
+									value="{!timelineDeleteRequestTimelineId}" />
+								<apex:commandButton value="Submit"
+									action="{!timelineDeleteRequest}" rerender="messages" />
+							</apex:pageBlockSection>
+						</apex:actionRegion>
+
+						<!-- Timeline Get Call -->
+						<apex:actionRegion id="gmirrortimelinegetactionregion">
+							<apex:pageBlockSection id="gmirrortimelineget" title="GET"
+								columns="1" collapsible="true">
+								<apex:outputLink
+									value="https://developers.google.com/glass/v1/reference/timeline/get">
+		                             https://developers.google.com/glass/v1/reference/timeline/get
+		                        </apex:outputLink>
+								<apex:inputText label="Id"
+									value="{!timelineGetRequestTimelineId}" />
+								<apex:commandButton value="Submit"
+									action="{!timelineGetRequest}" rerender="messages" />
+							</apex:pageBlockSection>
+						</apex:actionRegion>
+
+						<!-- Timeline Insert Call -->
+						<apex:actionRegion id="gmirrortimelineinsertactionregion">
+							<apex:pageBlockSection id="gmirrortimelineinsert" title="INSERT"
+								columns="1" collapsible="true">
+
+								<apex:pageBlockSection columns="2" collapsible="false">
+									<apex:outputLink
+										value="https://developers.google.com/glass/v1/reference/timeline/insert">
+			                           https://developers.google.com/glass/v1/reference/timeline/insert
+			                     	</apex:outputLink>
+									<apex:pageBlockSectionItem />
+
+									<apex:inputText label="Title"
+										value="{!timelineInsertRequestTitle}" />
+									<apex:inputText label="Text"
+										value="{!timelineInsertRequestText}" />
+									<apex:inputText label="Bundle Id"
+										value="{!timelineInsertRequestBundleId}" />
+									<apex:inputText label="Canonical URL"
+										value="{!timelineInsertRequestCanonicalUrl}" />
+									<apex:inputText label="Html"
+										value="{!timelineInsertRequestHtml}" />
+									<apex:inputText label="Source Item Id"
+										value="{!timelineInsertRequestSourceItemId}" />
+									<apex:inputText label="Speakable Text"
+										value="{!timelineInsertRequestSpeakableText}" />
+									<apex:inputText label="Speakable Type"
+										value="{!timelineInsertRequestSpeakableType}" />
+									<apex:selectRadio label="UploadType"
+										value="{!timelineInsertRequestUploadType}">
+										<apex:selectOptions value="{!timelineUploadTypes}" />
+									</apex:selectRadio>
+									<apex:inputCheckbox label="Is Bundle Cover"
+										value="{!timelineInsertRequestIsBundleCover}" />
+								</apex:pageBlockSection>
+
+								<apex:actionRegion
+									id="gmirrortimelineinsertmenuitemsactionregion">
+									<apex:pageBlockSection id="timelineinsertrequestmenuitems"
+										title="Menu Items" columns="1" collapsible="true">
+										<apex:selectRadio label="Action"
+											value="{!timelineInsertRequestMenuItemAction}">
+											<apex:selectOptions value="{!timelineMenuItemActions}" />
+										</apex:selectRadio>
+
+										<apex:pageBlockSection columns="2" collapsible="false">
+											<apex:inputText label="Id"
+												value="{!timelineInsertRequestMenuItemId}" />
+											<apex:inputText label="Payload"
+												value="{!timelineInsertRequestMenuItemPayload}" />
+											<apex:inputCheckBox label="Remove When Selected"
+												value="{!timelineInsertRequestMenuItemRemoveWhenSelected}" />
+										</apex:pageBlockSection>
+
+										<apex:pageBlockSection
+											id="timelineinsertrequestmenuitemvalues"
+											title="Menu Item Values" columns="1" collapsible="true">
+											<apex:pageBlockSection columns="2" collapsible="false">
+
+												<apex:inputText label="Display Name"
+													value="{!timelineInsertRequestMenuItemValueDisplayName}" />
+												<apex:inputText label="Icon URL"
+													value="{!timelineInsertRequestMenuItemValueIconUrl}" />
+
+												<apex:selectRadio label="State"
+													value="{!timelineInsertRequestMenuItemValueState}">
+													<apex:selectOptions value="{!timelineMenuItemValueStates}" />
+												</apex:selectRadio>
+												<apex:pageBlockSectionItem />
+
+												<apex:commandButton value="Add Menu Item Value"
+													action="{!timelineInsertRequestMenuItemValueAdd}"
+													rerender="timelineinsertrequestmenuitemvalues,messages" />
+											</apex:pageBlockSection>
+
+											<apex:pageBlockTable
+												value="{!timelineInsertRequestMenuItemValues}" var="item">
+												<apex:column headerValue="Display Name"
+													value="{!item.displayName}" />
+												<apex:column headerValue="Icon Url" value="{!item.iconUrl}" />
+												<apex:column headerValue="State" value="{!item.state}" />
+											</apex:pageBlockTable>
+										</apex:pageBlockSection>
+
+										<apex:commandButton value="Add Menu Item"
+											action="{!timelineInsertRequestMenuItemAdd}"
+											rerender="timelineinsertrequestmenuitems,messages" />
+
+										<apex:pageBlockTable value="{!timelineInsertRequestMenuItems}"
+											var="item">
+											<apex:column headerValue="Action" value="{!item.action}" />
+											<apex:column headerValue="Id" value="{!item.id}" />
+											<apex:column headerValue="Payload" value="{!item.payload}" />
+											<apex:column headerValue="Remove When Selected"
+												value="{!item.removeWhenSelected}" />
+											<apex:column headerValue="Menu Item Values"
+												value="{!item.values}" />
+										</apex:pageBlockTable>
+
+									</apex:pageBlockSection>
+								</apex:actionRegion>
+								<apex:commandButton value="Submit"
+									action="{!timelineInsertRequest}" />
+							</apex:pageBlockSection>
+						</apex:actionRegion>
+
+						<!-- Timeline List Call -->
+						<apex:actionRegion id="gmirrortimelinelistactionregion">
+							<apex:pageBlockSection id="gmirrortimelinelist" title="LIST"
+								columns="2" collapsible="true">
+								<apex:outputLink
+									value="https://developers.google.com/glass/v1/reference/timeline/list">
+		                             https://developers.google.com/glass/v1/reference/timeline/list
+		                        </apex:outputLink>
+								<apex:pageBlockSectionItem />
+								<apex:inputText label="Bundle Id"
+									value="{!timelineListRequestBundleId}" />
+								<apex:inputText label="Page Token"
+									value="{!timelineListRequestPageToken}" />
+								<apex:inputText label="Source Item Id"
+									value="{!timelineListRequestSourceItemId}" />
+								<apex:input type="number" label="Max Results"
+									value="{!timelineListRequestMaxResults}" />
+								<apex:inputCheckbox label="Include Deleted"
+									value="{!timelineListRequestIncludeDeleted}" />
+								<apex:inputCheckbox label="Pinned Only"
+									value="{!timelineListRequestPinnedOnly}" />
+								<apex:selectRadio label="Order By"
+									value="{!timelineListRequestOrderByType}">
+									<apex:selectOptions value="{!timelineListOrderByTypes}" />
+								</apex:selectRadio>
+								<apex:pageBlockSectionItem />
+								<apex:commandButton value="Submit"
+									action="{!timelineListRequest}" rerender="messages" />
+							</apex:pageBlockSection>
+						</apex:actionRegion>
+
+						<!-- Timeline Update Call -->
+						<apex:actionRegion id="gmirrortimelineupdateactionregion">
+							<apex:pageBlockSection id="gmirrortimelineupdate" title="UPDATE"
+								columns="1" collapsible="true">
+
+								<apex:pageBlockSection columns="2" collapsible="false">
+									<apex:outputLink
+										value="https://developers.google.com/glass/v1/reference/timeline/update">
+			                           https://developers.google.com/glass/v1/reference/timeline/update
+			                      	</apex:outputLink>
+									<apex:pageBlockSectionItem />
+
+									<apex:inputText label="Id" value="{!timelineUpdateRequestId}" />
+									<apex:inputText label="Title"
+										value="{!timelineUpdateRequestTitle}" />
+									<apex:inputText label="Text"
+										value="{!timelineUpdateRequestText}" />
+									<apex:inputText label="Bundle Id"
+										value="{!timelineUpdateRequestBundleId}" />
+									<apex:inputText label="Canonical URL"
+										value="{!timelineUpdateRequestCanonicalUrl}" />
+									<apex:inputText label="Html"
+										value="{!timelineUpdateRequestHtml}" />
+									<apex:inputText label="Source Item Id"
+										value="{!timelineUpdateRequestSourceItemId}" />
+									<apex:inputText label="Speakable Text"
+										value="{!timelineUpdateRequestSpeakableText}" />
+									<apex:inputText label="Speakable Type"
+										value="{!timelineUpdateRequestSpeakableType}" />
+									<apex:pageBlockSectionItem />
+									<apex:selectRadio label="UploadType"
+										value="{!timelineUpdateRequestUploadType}">
+										<apex:selectOptions value="{!timelineUploadTypes}" />
+									</apex:selectRadio>
+									<apex:inputCheckbox label="Is Bundle Cover"
+										value="{!timelineUpdateRequestIsBundleCover}" />
+								</apex:pageBlockSection>
+
+								<apex:actionRegion
+									id="gmirrortimelineupdatemenuitemsactionregion">
+									<apex:pageBlockSection id="timelineupdaterequestmenuitems"
+										title="Menu Items" columns="1" collapsible="true">
+										<apex:selectRadio label="Action"
+											value="{!timelineUpdateRequestMenuItemAction}">
+											<apex:selectOptions value="{!timelineMenuItemActions}" />
+										</apex:selectRadio>
+
+										<apex:pageBlockSection columns="2" collapsible="false">
+											<apex:inputText label="Id"
+												value="{!timelineUpdateRequestMenuItemId}" />
+											<apex:inputText label="Payload"
+												value="{!timelineUpdateRequestMenuItemPayload}" />
+											<apex:inputCheckBox label="Remove When Selected"
+												value="{!timelineUpdateRequestMenuItemRemoveWhenSelected}" />
+										</apex:pageBlockSection>
+
+										<apex:pageBlockSection
+											id="timelineupdaterequestmenuitemvalues"
+											title="Menu Item Values" columns="1" collapsible="true">
+
+											<apex:pageBlockSection columns="2" collapsible="false">
+												<apex:inputText label="Display Name"
+													value="{!timelineUpdateRequestMenuItemValueDisplayName}" />
+												<apex:inputText label="Icon URL"
+													value="{!timelineUpdateRequestMenuItemValueIconUrl}" />
+
+												<apex:selectRadio label="State"
+													value="{!timelineUpdateRequestMenuItemValueState}">
+													<apex:selectOptions value="{!timelineMenuItemValueStates}" />
+												</apex:selectRadio>
+												<apex:pageBlockSectionItem />
+
+												<apex:commandButton value="Add Menu Item Value"
+													action="{!timelineUpdateRequestMenuItemValueAdd}"
+													rerender="timelineupdaterequestmenuitemvalues,messages" />
+												<apex:pageBlockSectionItem />
+											</apex:pageBlockSection>
+
+											<apex:pageBlockTable
+												value="{!timelineUpdateRequestMenuItemValues}" var="item">
+												<apex:column headerValue="Display Name"
+													value="{!item.displayName}" />
+												<apex:column headerValue="Icon Url" value="{!item.iconUrl}" />
+												<apex:column headerValue="State" value="{!item.state}" />
+											</apex:pageBlockTable>
+										</apex:pageBlockSection>
+
+										<apex:commandButton value="Add Menu Item"
+											action="{!timelineUpdateRequestMenuItemAdd}"
+											rerender="timelineupdaterequestmenuitems,messages" />
+
+										<apex:pageBlockTable value="{!timelineUpdateRequestMenuItems}"
+											var="item">
+											<apex:column headerValue="Action" value="{!item.action}" />
+											<apex:column headerValue="Id" value="{!item.id}" />
+											<apex:column headerValue="Payload" value="{!item.payload}" />
+											<apex:column headerValue="Remove When Selected"
+												value="{!item.removeWhenSelected}" />
+											<apex:column headerValue="Menu Item Values"
+												value="{!item.values}" />
+										</apex:pageBlockTable>
+									</apex:pageBlockSection>
+								</apex:actionRegion>
+								<apex:commandButton value="Submit"
+									action="{!timelineUpdateRequest}" />
+							</apex:pageBlockSection>
+						</apex:actionRegion>
+					</apex:pageBlockSection>
+
+				</apex:pageBlockSection>
+			</apex:actionRegion>
+
+			<!-- Timeline Attachments API Calls -->
+			<apex:actionRegion id="gmirrortimelineattachmentsactionregion">
+				<apex:pageBlockSection id="gmirrortimelineattachments"
+					title="Timeline Attachments" columns="1" collapsible="true">
+					<apex:outputLink
+						value="https://developers.google.com/glass/v1/reference/timeline/attachments">
+	                             https://developers.google.com/glass/v1/reference/timeline/attachments
+	                 </apex:outputLink>
+
+					<apex:pageBlockSection id="gmirrortimelineattachmentscallouts"
+						columns="2">
+
+						<!-- Timeline Attachment Delete Call -->
+						<apex:actionRegion
+							id="gmirrortimelineattachmentsdeleteactionregion">
+							<apex:pageBlockSection title="DELETE" columns="1"
+								collapsible="false">
+								<apex:outputLink
+									value="https://developers.google.com/glass/v1/reference/timeline/attachments/delete">
+		                             https://developers.google.com/glass/v1/reference/timeline/attachments/delete
+		                         </apex:outputLink>
+								<apex:inputText label="Timeline Id"
+									value="{!timelineAttachmentsDeleteRequestTimelineId}" />
+								<apex:inputText label="Id"
+									value="{!timelineAttachmentsDeleteRequestAttachmentId}" />
+								<apex:commandButton value="Submit"
+									action="{!timelineAttachmentsDeleteRequest}"
+									rerender="messages" />
+							</apex:pageBlockSection>
+						</apex:actionRegion>
+
+						<!-- Timeline Attachment Get Call -->
+						<apex:actionRegion id="gmirrortimelineattachmentsgetactionregion">
+							<apex:pageBlockSection title="GET" columns="1"
+								collapsible="false">
+								<apex:outputLink
+									value="https://developers.google.com/glass/v1/reference/timeline/attachments/get">
+	                             https://developers.google.com/glass/v1/reference/timeline/attachments/get
+	                         </apex:outputLink>
+								<apex:inputText label="Timeline Id"
+									value="{!timelineAttachmentsGetRequestTimelineId}" />
+								<apex:inputText label="Id"
+									value="{!timelineAttachmentsGetRequestAttachmentId}" />
+								<apex:commandButton value="Submit"
+									action="{!timelineAttachmentsGetRequest}" rerender="messages" />
+							</apex:pageBlockSection>
+						</apex:actionRegion>
+
+						<!-- Timeline Attachment List Call -->
+						<apex:actionRegion id="gmirrortimelineattachmentslistactionregion">
+							<apex:pageBlockSection title="LIST" columns="1"
+								collapsible="false">
+								<apex:outputLink
+									value="https://developers.google.com/glass/v1/reference/timeline/attachments/list">
+	                             https://developers.google.com/glass/v1/reference/timeline/attachments/list
+	                         </apex:outputLink>
+								<apex:inputText label="Timeline Id"
+									value="{!timelineAttachmentsListRequestTimelineId}" />
+								<apex:commandButton value="Submit"
+									action="{!timelineAttachmentsListRequest}" rerender="messages" />
+							</apex:pageBlockSection>
+						</apex:actionRegion>
+
+						<!-- Timeline Attachment Download Call -->
+						<apex:actionRegion
+							id="gmirrortimelineattachmentsdownloadactionregion">
+							<apex:pageBlockSection id="gmirrortimelineattachmentsdownload"
+								title="DOWNLOAD" columns="1" collapsible="false">
+								<apex:outputText
+									value="This is not a Google API call, however it is a useful function to check the attachment contents." />
+								<apex:inputText label="URL"
+									value="{!timelineAttachmentsDownloadRequestURL}" />
+								<apex:inputText label="Content Type"
+									value="{!timelineAttachmentsDownloadRequestContentType}" />
+								<apex:commandButton value="Submit"
+									action="{!timelineAttachmentsDownloadRequest}"
+									rerender="messages" />
+
+								<apex:commandButton value="View Attachment"
+									action="{!timelineAttachmentsDownloadRequestViewAttachment}" />
+							</apex:pageBlockSection>
+						</apex:actionRegion>
+
+						<!-- Timeline Attachment Insert Call -->
+						<apex:actionRegion
+							id="gmirrortimelineattachmentsinsertactionregion">
+							<apex:pageBlockSection title="INSERT" columns="1"
+								collapsible="false">
+								<apex:outputLink
+									value="https://developers.google.com/glass/v1/reference/timeline/attachments/insert">
+	                             https://developers.google.com/glass/v1/reference/timeline/attachments/insert
+	                         </apex:outputLink>
+								<apex:inputText label="Timeline Id"
+									value="{!timelineAttachmentsInsertRequestTimelineId}" />
+								<apex:selectRadio label="UploadType"
+									value="{!timelineAttachmentsInsertRequestUploadType}">
+									<apex:selectOptions value="{!timelineAttachmentUploadTypes}" />
+								</apex:selectRadio>
+								<apex:inputFile
+									value="{!timelineAttachmentsInsertRequestFileBody}"
+									filename="{!timelineAttachmentsInsertRequestFileName}"
+									contentType="{!timelineAttachmentsInsertRequestFileContentType}" />
+								<apex:commandButton value="Submit"
+									action="{!timelineAttachmentsInsertRequest}" />
+							</apex:pageBlockSection>
+						</apex:actionRegion>
+					</apex:pageBlockSection>
+				</apex:pageBlockSection>
+			</apex:actionRegion>
+		</apex:pageblock>
+	</apex:form>
+</apex:page>

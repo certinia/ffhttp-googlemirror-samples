@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<CustomObject xmlns="http://soap.sforce.com/2006/04/metadata">
+    <deploymentStatus>Deployed</deploymentStatus>
+    <label>Connector</label>
+    <nameField>
+        <label>Connector</label>
+        <type>Text</type>
+    </nameField>
+    <pluralLabel>Connectors</pluralLabel>
+    <sharingModel>ReadWrite</sharingModel>
+    <webLinks>
+        <fullName>MirrorSubscriptions</fullName>
+        <availability>online</availability>
+        <displayType>button</displayType>
+        <height>600</height>
+        <linkType>page</linkType>
+        <masterLabel>Mirror Subscriptions</masterLabel>
+        <openType>sidebar</openType>
+        <page>GoogleMirrorSubscribe</page>
+        <protected>false</protected>
+    </webLinks>
+</CustomObject>
