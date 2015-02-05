@@ -56,6 +56,13 @@
 
 	<apex:form id="mainForm">
 		<apex:pageblock id="mainBlock" title="Google Mirror API Test Harness">
+			<apex:pageBlockSection columns="1" collapsible="false">
+				<apex:outputText>
+					This page allows all the Google Mirror API calls to be tested. 
+					It requires an authenticated Google Mirror connector (with the connector type name 'Google Mirror API') to function correctly.
+				</apex:outputText>
+			</apex:pageBlockSection>
+			
 			<apex:pageBlockSection title="Callout Details" id="messages"
 				columns="1" collapsible="true">
 				<apex:pagemessages />
