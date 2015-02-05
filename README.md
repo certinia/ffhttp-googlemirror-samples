@@ -86,8 +86,8 @@ This section explains how to configure the Google Mirror Sample App.
 
 ###Deploying the project
 
-1. Deploy the **Core**, **Google Mirror** and **OAuth Client Sample App** packages to your Salesforce organisation.
-2. Deploy the **Google Mirror Sample App** to your organisation.
+1. Deploy the [Core](https://githubsfdeploy.herokuapp.com?owner=financialforcedev&repo=ffhttp-core), [Google Mirror](https://githubsfdeploy.herokuapp.com?owner=financialforcedev&repo=ffhttp-googlemirror) and [OAuth Client Sample App](https://githubsfdeploy.herokuapp.com?owner=financialforcedev&repo=ffhttp-core-samples) packages to your Salesforce organisation.
+2. Deploy the [Google Mirror Sample App](https://githubsfdeploy.herokuapp.com?owner=financialforcedev&repo=ffhttp-googlemirror-samples) to your organisation.
 3. If the **Google Mirror Sample App** app shows in the app menu then go to step 9.
 4. Otherwise, go to **Setup** > **Manage Users** > **Users**.
 5. Select your user.
